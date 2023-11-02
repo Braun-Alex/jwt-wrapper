@@ -2,8 +2,7 @@
 #include "JWT.h"
 
 TEST(JWTTest, VerifyingAccessToken) {
-    try {
-        std::string data = "StarkNet is an open-source, decentralized platform for building scalable "
+    const std::string data = "StarkNet is an open-source, decentralized platform for building scalable "
                            "and secure applications on Ethereum. It is designed to provide high "
                            "throughput, low-cost transactions, and strong privacy guarantees "
                            "for smart contract execution. StarkNet achieves these goals "
@@ -22,23 +21,18 @@ TEST(JWTTest, VerifyingAccessToken) {
                            "computation and the security of the Ethereum mainnet, StarkNet aims to provide "
                            "a powerful infrastructure for building scalable and efficient "
                            "blockchain applications.";
+    const JWT wrapper("publicKey.pem", "privateKey.pem", "ZK-STARK has big impact on StarkNet");
 
-        JWT wrapper("publicKey.pem", "privateKey.pem", "ZK-STARK has big impact on StarkNet");
+    const std::string accessToken = wrapper.generateAccessToken(data);
+    std::string protectedData;
+    const bool isValid = wrapper.verifyToken(accessToken, protectedData);
 
-        std::string accessToken = wrapper.generateAccessToken(data);
-        std::string protectedData;
-        bool isValid = wrapper.verifyToken(accessToken, protectedData);
-
-        EXPECT_TRUE(isValid);
-        EXPECT_EQ(data, protectedData);
-    } catch (const Poco::Exception& exception) {
-        Poco::Util::Application::instance().logger().error(exception.displayText());
-    }
+    EXPECT_TRUE(isValid);
+    EXPECT_EQ(data, protectedData);
 }
 
 TEST(JWTTest, VerifyingRefreshToken) {
-    try {
-        std::string data = "StarkNet is an open-source, decentralized platform for building scalable "
+    const std::string data = "StarkNet is an open-source, decentralized platform for building scalable "
                            "and secure applications on Ethereum. It is designed to provide high "
                            "throughput, low-cost transactions, and strong privacy guarantees "
                            "for smart contract execution. StarkNet achieves these goals "
@@ -58,17 +52,14 @@ TEST(JWTTest, VerifyingRefreshToken) {
                            "a powerful infrastructure for building scalable and efficient "
                            "blockchain applications.";
 
-        JWT wrapper("publicKey.pem", "privateKey.pem", "ZK-STARK has big impact on StarkNet");
+    const JWT wrapper("publicKey.pem", "privateKey.pem", "ZK-STARK has big impact on StarkNet");
 
-        std::string accessToken = wrapper.generateRefreshToken(data);
-        std::string protectedData;
-        bool isValid = wrapper.verifyToken(accessToken, protectedData);
+    const std::string accessToken = wrapper.generateRefreshToken(data);
+    std::string protectedData;
+    const bool isValid = wrapper.verifyToken(accessToken, protectedData);
 
-        EXPECT_TRUE(isValid);
-        EXPECT_EQ(data, protectedData);
-    } catch (const Poco::Exception& exception) {
-        Poco::Util::Application::instance().logger().error(exception.displayText());
-    }
+    EXPECT_TRUE(isValid);
+    EXPECT_EQ(data, protectedData);
 }
 
 int main() {

@@ -1,4 +1,4 @@
-#include "../include/JWT.h"
+#include "JWT.h"
 
 JWT::JWT(const std::string& publicKeyFile, const std::string& privateKeyFile, std::string passphrase): _signer(
         new Poco::Crypto::ECKey(publicKeyFile, privateKeyFile)), _passphrase(std::move(passphrase)) {
