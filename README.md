@@ -54,7 +54,15 @@ cd build
 sudo cmake ..
 ```
 
-6. Compile and install the library:
+6. To run the unit tests:
+```bash
+./libtest
+```
+
+> Before running the unit tests, ensure that the `privateKey.pem` and `publicKey.pem` files are present
+> in the build directory. These keys must form a cryptographic pair using the elliptic curve `secp256r1`.
+
+7. Compile and install the library:
 ```bash
 sudo make install
 ```
